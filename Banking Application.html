@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Banking Application</title>
+</head>
+<body>
+
+<script>
+
+// Empty Customer Array
+let customer = [];
+
+// 1. Create Account
+function createAccount() {
+
+    let name = prompt("Enter Customer Name:");
+    let accno = Number(prompt("Enter Account Number:"));
+    let balance = Number(prompt("Enter Initial Balance:"));
+
+    let user = {
+        customer_name: name,
+        account_no: accno,
+        balance: balance,
+        transactions: []
+    };
+
+    customer.push(user);
+
+    alert("Account Created Successfully");
+}
+
+// 2. Login
+function login() {
+
+    let accno = Number(prompt("Enter Account Number:"));
+    let name = prompt("Enter Customer Name:");
+
+    let user = customer.find(
+        c => c.account_no === accno &&
+             c.customer_name === name
+    );
+
+    if (user) {
+
+        alert("Login Successful");
+
+        banking(user);
+
+    } else {
+
+        alert("Invalid Login Details");
+
+    }
+}
+
+// 3. Banking Menu
+function banking(user) {
+
+    let choice;
+
+    do {
+
+        choice = Number(prompt(
+            "1. Balance Enquiry\n" +
+            "2. Deposit\n" +
+            "3. Withdraw\n" +
+            "4. Mini Statement\n" +
+            "5. Logout"
+        ));
+
+        switch (choice) {
+
+            case 1:
+                alert("Balance: " + user.balance);
+                break;
+
+            case 2:
+                let d = Number(prompt("Enter Deposit Amount:"));
+
+                if (d > 0) {
+                    user.balance += d;
+                    user.transactions.push("Deposited: " + d);
+                    alert("Deposit Successful");
+                } else {
+                    alert("Invalid Amount");
+                }
+                break;
+
+            case 3:
+                let w = Number(prompt("Enter Withdraw Amount:"));
+
+                if (w > 0 && w <= user.balance) {
+                    user.balance -= w;
+                    user.transactions.push("Withdrawn: " + w);
+                    alert("Withdrawal Successful");
+                } else {
+                    alert("Insufficient Balance or Invalid Amount");
+                }
+                break;
+
+            case 4:
+                alert(user.transactions.join("\n") || "No Transactions");
+                break;
+
+            case 5:
+                alert("Logout Successful");
+                break;
+
+            default:
+                alert("Invalid Choice");
+        }
+
+    } while (choice !== 5);
+
+}
+
+// Main Menu
+let option;
+
+do {
+
+    option = Number(prompt(
+        "1. Create Account\n" +
+        "2. Login\n" +
+        "3. Exit\n" +
+        "Enter Your Choice:"
+    ));
+
+    switch (option) {
+
+        case 1:
+            createAccount();
+            break;
+
+        case 2:
+            login();
+            break;
+
+        case 3:
+            alert("Thank You");
+            break;
+
+        default:
+            alert("Invalid Option");
+    }
+
+} while (option !== 3);
+
+</script>
+
+</body>
+</html>
